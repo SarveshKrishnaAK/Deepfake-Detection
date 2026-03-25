@@ -16,6 +16,7 @@ from pydub import AudioSegment
 import tensorflow as tf
 from dotenv import load_dotenv
 from authlib.integrations.flask_client import OAuth
+from werkzeug.middleware.proxy_fix import ProxyFix
 
 load_dotenv()
 
@@ -26,6 +27,7 @@ except Exception:
 
 app = Flask(__name__)
 app.secret_key = os.getenv('SECRET_KEY', 'KjhLJF54f6ds234H')
+app.wsgi_app = ProxyFix(app.wsgi_app, x_for=1, x_proto=1, x_host=1)
 
 oauth = OAuth(app)
 google = oauth.register(
@@ -308,7 +310,10 @@ def oauth_callback():
 
 @app.route('/auth/google')
 def auth_google():
-    redirect_uri = url_for('oauth_callback', _external=True)
+    redirect_uri = os.getenv('OAUTH_REDIRECT_URI', '').strip()
+    if not redirect_uri:
+        forwarded_proto = request.headers.get('X-Forwarded-Proto', request.scheme)
+        redirect_uri = url_for('oauth_callback', _external=True, _scheme=forwarded_proto)
     return google.authorize_redirect(redirect_uri)
 
 
