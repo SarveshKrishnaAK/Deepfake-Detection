@@ -28,6 +28,9 @@ static/uploads/
 *.sqlite3
 *.h5
 *.keras
+!model.keras
+!resnet_model.h5
+!vgg_model.h5
 
 #virtual environment
 venv/

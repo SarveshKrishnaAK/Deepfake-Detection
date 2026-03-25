@@ -40,6 +40,7 @@ DATABASE = "mydb.sqlite3"
 MONGO_URI = os.getenv("MONGO_URI", "").strip()
 PREDICTION_CACHE_TTL_SECONDS = 3600
 prediction_cache = {}
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
 
 # ==================== VIDEO/AUDIO MODELS ====================
@@ -47,13 +48,45 @@ UPLOAD_FOLDER = "static/uploads"
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 
 TRAINING_CSV_PATHS = ["dataset.csv", "dataset_old.csv"]
+MODEL_PATHS = {
+    "audio": os.path.join(BASE_DIR, "model.keras"),
+    "resnet": os.path.join(BASE_DIR, "resnet_model.h5"),
+    "vgg": os.path.join(BASE_DIR, "vgg_model.h5"),
+}
 
-audio_model = tf.keras.models.load_model("model.keras")
-video_model1 = load_model("resnet_model.h5")   # ResNet
-video_model1.compile(loss='binary_crossentropy', optimizer='adam', metrics=['accuracy'])
+audio_model = None
+video_model1 = None
+video_model2 = None
+model_load_error = None
 
-video_model2 = load_model("vgg_model.h5")      # VGG
-video_model2.compile(loss='binary_crossentropy', optimizer='adam', metrics=['accuracy'])
+
+def load_models_once():
+    global audio_model, video_model1, video_model2, model_load_error
+
+    if audio_model is not None and video_model1 is not None and video_model2 is not None:
+        return True
+
+    if model_load_error:
+        return False
+
+    missing = [path for path in MODEL_PATHS.values() if not os.path.exists(path)]
+    if missing:
+        model_load_error = (
+            "Model files are missing on server: " + ", ".join(os.path.basename(path) for path in missing)
+        )
+        return False
+
+    try:
+        audio_model = tf.keras.models.load_model(MODEL_PATHS["audio"])
+        video_model1 = load_model(MODEL_PATHS["resnet"])
+        video_model1.compile(loss='binary_crossentropy', optimizer='adam', metrics=['accuracy'])
+
+        video_model2 = load_model(MODEL_PATHS["vgg"])
+        video_model2.compile(loss='binary_crossentropy', optimizer='adam', metrics=['accuracy'])
+        return True
+    except Exception as exception:
+        model_load_error = f"Failed to load model files: {exception}"
+        return False
 
 
 class PredictionStore:
@@ -404,6 +437,8 @@ def extract_audio_features_for_model(audio_path):
     return np.expand_dims(mfccs, axis=0)
 
 def predict_audio_with_model(audio_path):
+    if not load_models_once():
+        raise RuntimeError(model_load_error or "Model loading failed")
     features = extract_audio_features_for_model(audio_path)
     prediction = audio_model.predict(features)[0][0]
     return "real" if prediction < 0.5 else "fake"
@@ -430,6 +465,8 @@ def extract_video_frames(video_path, num_frames=10):
     return np.concatenate(frames, axis=0) if frames else None
 
 def predict_video_with_models(video_path):
+    if not load_models_once():
+        raise RuntimeError(model_load_error or "Model loading failed")
     frames = extract_video_frames(video_path, num_frames=10)
     if frames is None:
         return "error"
@@ -466,6 +503,14 @@ def model():
     prediction_source = "model"
 
     if request.method == 'POST':
+        if not load_models_once():
+            return render_template(
+                'model.html',
+                background_image=background_image,
+                feedback_visible=feedback_visible,
+                msg=model_load_error or "Model loading failed",
+            )
+
         uploaded_file = request.files.get('media_file')
 
         if not uploaded_file:
