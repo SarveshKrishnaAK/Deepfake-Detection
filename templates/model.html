@@ -107,21 +107,66 @@
             </section>
         </main>
 
-        <footer class="site-footer">&copy; 2026 Project.</footer>
+        <footer class="footer">
+            <div class="footer-content footer-main">
+                <div class="footer-left">
+                    <span>© 2026 Airbot. All rights reserved.</span>
+                    <span class="separator">|</span>
+                    <span>Powered by Gemma2 & Llama3 via Ollama</span>
+                    <span class="separator">|</span>
+                    <span>RAG-Enhanced Aerospace Intelligence</span>
+                </div>
+                <div class="footer-right">
+                    <a class="footer-link" href="https://binarybase.vercel.app/" target="_blank" rel="noopener noreferrer">Portfolio</a>
+                    <span class="separator">|</span>
+                    <a class="footer-link" href="https://www.linkedin.com/in/sarveshkrishnaak/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+                    <span class="separator">|</span>
+                    <a class="footer-link" href="https://github.com/SarveshKrishnaAK" target="_blank" rel="noopener noreferrer">GitHub</a>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <div id="upload-loading-overlay" class="loading-overlay" aria-live="polite" aria-busy="true">
+        <div class="loading-content">
+            <div class="loading-spinner"></div>
+            <p class="loading-text">Analyzing media, please wait...</p>
+        </div>
     </div>
 
     <script>
         const mediaFileInput = document.getElementById('media_file');
+        const uploadForm = document.getElementById('upload_form');
+        const uploadOverlay = document.getElementById('upload-loading-overlay');
         const audioPlayerDiv = document.querySelector('.audio-player');
         const videoPlayerDiv = document.querySelector('.video-player');
         const audioPlayer = document.getElementById('audio_player');
         const audioSource = document.getElementById('audio_source');
         const videoPlayer = document.getElementById('video_player');
         const videoSource = document.getElementById('video_source');
+        const overlayText = uploadOverlay.querySelector('.loading-text');
+        const submitButton = uploadForm.querySelector('button[type="submit"]');
+        const feedbackForms = document.querySelectorAll('form[action="/feedback.html"]');
+
+        function showOverlay(message) {
+            overlayText.textContent = message;
+            uploadOverlay.classList.add('active');
+        }
 
         function showLoader() {
             document.getElementById('loader').style.display = 'block';
+            showOverlay('Analyzing media, please wait...');
+            submitButton.disabled = true;
+            submitButton.textContent = 'Processing...';
         }
+
+        uploadForm.addEventListener('submit', function (event) {
+            if (!mediaFileInput.files || mediaFileInput.files.length === 0) {
+                event.preventDefault();
+                return;
+            }
+            showLoader();
+        });
 
         mediaFileInput.addEventListener('change', function (event) {
             const file = event.target.files[0];
@@ -140,6 +185,16 @@
                 videoPlayer.load();
                 videoPlayerDiv.style.display = 'block';
             }
+        });
+
+        feedbackForms.forEach(function (feedbackForm) {
+            feedbackForm.addEventListener('submit', function () {
+                showOverlay('Saving feedback...');
+                const formButtons = feedbackForm.querySelectorAll('button[type="submit"]');
+                formButtons.forEach(function (button) {
+                    button.disabled = true;
+                });
+            });
         });
     </script>
 </body>

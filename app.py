@@ -11,6 +11,7 @@ import time
 import json
 import hashlib
 from typing import Optional
+os.environ.setdefault("TF_USE_LEGACY_KERAS", "1")
 from tensorflow.keras.models import load_model
 from pydub import AudioSegment
 import tensorflow as tf
@@ -79,12 +80,9 @@ def load_models_once():
         return False
 
     try:
-        audio_model = tf.keras.models.load_model(MODEL_PATHS["audio"])
-        video_model1 = load_model(MODEL_PATHS["resnet"])
-        video_model1.compile(loss='binary_crossentropy', optimizer='adam', metrics=['accuracy'])
-
-        video_model2 = load_model(MODEL_PATHS["vgg"])
-        video_model2.compile(loss='binary_crossentropy', optimizer='adam', metrics=['accuracy'])
+        audio_model = tf.keras.models.load_model(MODEL_PATHS["audio"], compile=False)
+        video_model1 = load_model(MODEL_PATHS["resnet"], compile=False)
+        video_model2 = load_model(MODEL_PATHS["vgg"], compile=False)
         return True
     except Exception as exception:
         model_load_error = f"Failed to load model files: {exception}"
@@ -320,7 +318,7 @@ def auth_google():
 @app.route('/logout')
 def logout():
     session.clear()
-    return redirect(url_for('home1'))
+    return redirect(url_for('home'))
 
 
 @app.route('/contact.html')
@@ -335,11 +333,7 @@ def about():
 
 @app.route('/index.html')
 def home1():
-
-    @app.route('/')
-    def home():
-        return render_template('index.html', background_image="/")
-    return render_template('index.html', background_image="/")
+    return redirect(url_for('home'))
 
 @app.route('/thankyou.html', methods=['GET', 'POST'])
 def thank_you():

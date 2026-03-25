@@ -10,5 +10,6 @@ authlib==1.3.0
 opencv-python-headless==4.10.0.84
 pydub==0.25.1
 tensorflow==2.15.1
+keras==2.15.0
 setuptools>=70
 wheel
