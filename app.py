@@ -62,26 +62,45 @@ video_model2 = None
 model_load_error = None
 
 
-def load_models_once():
-    global audio_model, video_model1, video_model2, model_load_error
+def ensure_audio_model_loaded():
+    global audio_model, model_load_error
 
-    if audio_model is not None and video_model1 is not None and video_model2 is not None:
+    if audio_model is not None:
         return True
 
-    if model_load_error:
-        return False
-
-    missing = [path for path in MODEL_PATHS.values() if not os.path.exists(path)]
-    if missing:
-        model_load_error = (
-            "Model files are missing on server: " + ", ".join(os.path.basename(path) for path in missing)
-        )
+    audio_path = MODEL_PATHS["audio"]
+    if not os.path.exists(audio_path):
+        model_load_error = "Model files are missing on server: model.keras"
         return False
 
     try:
-        audio_model = keras.models.load_model(MODEL_PATHS["audio"], compile=False)
-        video_model1 = keras.models.load_model(MODEL_PATHS["resnet"], compile=False)
-        video_model2 = keras.models.load_model(MODEL_PATHS["vgg"], compile=False)
+        audio_model = keras.models.load_model(audio_path, compile=False)
+        return True
+    except Exception as exception:
+        model_load_error = f"Failed to load model files: {exception}"
+        return False
+
+
+def ensure_video_models_loaded():
+    global video_model1, video_model2, model_load_error
+
+    if video_model1 is not None and video_model2 is not None:
+        return True
+
+    missing_models = []
+    if not os.path.exists(MODEL_PATHS["resnet"]):
+        missing_models.append("resnet_model.h5")
+    if not os.path.exists(MODEL_PATHS["vgg"]):
+        missing_models.append("vgg_model.h5")
+    if missing_models:
+        model_load_error = "Model files are missing on server: " + ", ".join(missing_models)
+        return False
+
+    try:
+        if video_model1 is None:
+            video_model1 = keras.models.load_model(MODEL_PATHS["resnet"], compile=False)
+        if video_model2 is None:
+            video_model2 = keras.models.load_model(MODEL_PATHS["vgg"], compile=False)
         return True
     except Exception as exception:
         model_load_error = f"Failed to load model files: {exception}"
@@ -301,6 +320,7 @@ def oauth_callback():
         session['Loggedin'] = True
         session['email'] = user.get('email')
         session['name'] = user.get('name')
+        session['picture'] = user.get('picture')
         return redirect(url_for('model'))
     return redirect(url_for('login'))
 
@@ -435,7 +455,7 @@ def extract_audio_features_for_model(audio_path):
     return np.expand_dims(mfccs, axis=0)
 
 def predict_audio_with_model(audio_path):
-    if not load_models_once():
+    if not ensure_audio_model_loaded():
         raise RuntimeError(model_load_error or "Model loading failed")
     features = extract_audio_features_for_model(audio_path)
     prediction = audio_model.predict(features)[0][0]
@@ -463,7 +483,7 @@ def extract_video_frames(video_path, num_frames=10):
     return np.concatenate(frames, axis=0) if frames else None
 
 def predict_video_with_models(video_path):
-    if not load_models_once():
+    if not ensure_video_models_loaded():
         raise RuntimeError(model_load_error or "Model loading failed")
     frames = extract_video_frames(video_path, num_frames=10)
     if frames is None:
@@ -501,14 +521,6 @@ def model():
     prediction_source = "model"
 
     if request.method == 'POST':
-        if not load_models_once():
-            return render_template(
-                'model.html',
-                background_image=background_image,
-                feedback_visible=feedback_visible,
-                msg=model_load_error or "Model loading failed",
-            )
-
         uploaded_file = request.files.get('media_file')
 
         if not uploaded_file:

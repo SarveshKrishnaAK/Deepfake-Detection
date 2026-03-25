@@ -10,11 +10,14 @@
     <div class="site-shell">
         <header class="site-header">
             <div class="header-inner">
-                <div class="brand">AUDIO & VIDEO DEEPFAKE DETECTION</div>
+                <div class="brand">DFBot</div>
                 <nav>
                     <ul class="nav-list">
                         <li><a class="nav-link" href="/">Home</a></li>
                         <li><a class="nav-link" href="/about.html">About</a></li>
+                        {% if session.get('Loggedin') and session.get('picture') %}
+                            <li class="nav-user"><img src="{{ session.get('picture') }}" alt="Profile"><span>{{ session.get('name', 'User') }}</span></li>
+                        {% endif %}
                         {% if session.get('Loggedin') %}
                             <li><a class="nav-link" href="/model.html">Model</a></li>
                             <li><a class="nav-link" href="/logout">Logout</a></li>

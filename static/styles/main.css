@@ -170,6 +170,33 @@ body::after {
     left: 140%;
 }
 
+.nav-user {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 10px;
+    border: 1px solid var(--glass-border);
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.05);
+    color: var(--text-soft);
+    max-width: 220px;
+}
+
+.nav-user img {
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    border: 1px solid rgba(0, 212, 255, 0.45);
+    object-fit: cover;
+}
+
+.nav-user span {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-size: 0.85rem;
+}
+
 .page {
     flex: 1;
     width: min(1280px, 94%);
