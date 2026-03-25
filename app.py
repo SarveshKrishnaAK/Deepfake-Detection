@@ -11,8 +11,7 @@ import time
 import json
 import hashlib
 from typing import Optional
-os.environ.setdefault("TF_USE_LEGACY_KERAS", "1")
-from tensorflow.keras.models import load_model
+import keras
 from pydub import AudioSegment
 import tensorflow as tf
 from dotenv import load_dotenv
@@ -80,9 +79,9 @@ def load_models_once():
         return False
 
     try:
-        audio_model = tf.keras.models.load_model(MODEL_PATHS["audio"], compile=False)
-        video_model1 = load_model(MODEL_PATHS["resnet"], compile=False)
-        video_model2 = load_model(MODEL_PATHS["vgg"], compile=False)
+        audio_model = keras.models.load_model(MODEL_PATHS["audio"], compile=False)
+        video_model1 = keras.models.load_model(MODEL_PATHS["resnet"], compile=False)
+        video_model2 = keras.models.load_model(MODEL_PATHS["vgg"], compile=False)
         return True
     except Exception as exception:
         model_load_error = f"Failed to load model files: {exception}"
