@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact</title>
+    <link rel="stylesheet" href="/static/styles/main.css">
+</head>
+<body>
+    <header>
+        <div class="brand">AUDIO & VIDEO DEEPFAKE DETECTION</div>
+        <nav>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/about.html">About</a></li>
+                {% if session.get('Loggedin') %}
+                    <li><a href="/logout">Logout</a></li>
+                {% else %}
+                    <li><a href="/login.html">Login</a></li>
+                {% endif %}
+                <li><a href="/contact.html">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section class="card form-card">
+            <h2 class="form-title">Contact Us</h2>
+            <form action="/thankyou.html" method="POST">
+                <div class="field">
+                    <label for="name">Name</label>
+                    <input type="text" id="name" name="name" required>
+                </div>
+                <div class="field">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+                <div class="field">
+                    <label for="message">Message</label>
+                    <textarea id="message" name="message" required placeholder="Type your message here"></textarea>
+                </div>
+                <button class="btn" type="submit">Submit</button>
+            </form>
+        </section>
+    </main>
+
+    <footer>&copy; 2026 Project.</footer>
+</body>
+</html>

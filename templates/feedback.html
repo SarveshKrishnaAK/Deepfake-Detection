@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Feedback Saved</title>
+    <link rel="stylesheet" href="/static/styles/main.css">
+</head>
+<body>
+    <header>
+        <div class="brand">AUDIO & VIDEO DEEPFAKE DETECTION</div>
+        <nav>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/about.html">About</a></li>
+                {% if session.get('Loggedin') %}
+                    <li><a href="/logout">Logout</a></li>
+                {% else %}
+                    <li><a href="/login.html">Login</a></li>
+                {% endif %}
+                <li><a href="/contact.html">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section class="card form-card" style="text-align: center;">
+            <h2 class="form-title">Thanks for your feedback</h2>
+            <p class="small" style="margin-bottom: 14px;">Your response has been stored and your feature data has been appended to the training CSV pipeline.</p>
+            <a class="btn" href="/model.html">Analyze Another File</a>
+        </section>
+    </main>
+
+    <footer>&copy; 2026 Project.</footer>
+</body>
+</html>

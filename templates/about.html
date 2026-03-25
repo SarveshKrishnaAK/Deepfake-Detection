@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About</title>
+    <link rel="stylesheet" href="/static/styles/main.css">
+</head>
+<body>
+    <header>
+        <div class="brand">AUDIO & VIDEO DEEPFAKE DETECTION</div>
+        <nav>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/about.html">About</a></li>
+                {% if session.get('Loggedin') %}
+                    <li><a href="/logout">Logout</a></li>
+                {% else %}
+                    <li><a href="/login.html">Login</a></li>
+                {% endif %}
+                <li><a href="/contact.html">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section class="card" style="line-height: 1.7;">
+            <h2 style="margin-bottom: 12px;">About the Project</h2>
+            <p>
+                This platform is built to detect manipulated voice and face content using audio and video models.
+                It is designed for practical deployment: upload handling, prediction persistence, user feedback loops,
+                and clean reporting in one place.
+            </p>
+            <p style="margin-top: 10px;">
+                The system analyzes uploaded media, extracts meaningful features, and returns deepfake probability through
+                model voting and acoustic analysis. Feedback can be sent directly after prediction to improve future training data.
+            </p>
+            <p style="margin-top: 10px;">
+                With support for cached responses and duplicate detection, the app delivers faster repeated results while
+                keeping an auditable history in the database layer.
+            </p>
+        </section>
+    </main>
+
+    <footer>&copy; 2026 Project.</footer>
+</body>
+</html>

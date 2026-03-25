@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link rel="stylesheet" href="/static/styles/main.css">
+</head>
+<body>
+    <header>
+        <div class="brand">AUDIO & VIDEO DEEPFAKE DETECTION</div>
+        <nav>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/about.html">About</a></li>
+                {% if session.get('Loggedin') %}
+                    <li><a href="/logout">Logout</a></li>
+                {% else %}
+                    <li><a href="/login.html">Login</a></li>
+                {% endif %}
+                <li><a href="/contact.html">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section class="card form-card">
+            <h2 class="form-title">Sign In with Google</h2>
+            {% if msg %}
+                <div class="msg error">{{ msg }}</div>
+            {% endif %}
+
+            <p class="small" style="text-align: center; margin-bottom: 20px;">
+                Use your Google account to access deepfake detection.
+            </p>
+
+            <a class="btn" href="/auth/google" style="display: block; text-align: center;">
+                Sign In with Google
+            </a>
+
+            <p class="small" style="margin-top: 16px; text-align: center;">
+                First time here? Google Sign-In creates your account automatically.
+            </p>
+        </section>
+    </main>
+
+    <footer>&copy; 2026 Project.</footer>
+</body>
+</html>

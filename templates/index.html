@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Audio and Video Deepfake Detection</title>
+    <link rel="stylesheet" href="/static/styles/main.css">
+</head>
+<body>
+    <header>
+        <div class="brand">AUDIO & VIDEO DEEPFAKE DETECTION</div>
+        <nav>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/about.html">About</a></li>
+                {% if session.get('Loggedin') %}
+                    <li><a href="/logout">Logout</a></li>
+                {% else %}
+                    <li><a href="/login.html">Login</a></li>
+                {% endif %}
+                <li><a href="/contact.html">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section class="card hero">
+            <h1>Detect Synthetic Audio and Video with Confidence</h1>
+            <p>
+                Upload media and get fast deepfake analysis powered by deep learning. The platform now supports feedback-driven
+                dataset updates, duplicate upload result reuse, and a modern interface designed for real deployment demos.
+            </p>
+            <div class="cta-row">
+                <a class="btn" href="/login.html">Start Detection</a>
+                <a class="btn secondary" href="/about.html">Learn More</a>
+            </div>
+        </section>
+    </main>
+
+    <footer>&copy; 2026 Project.</footer>
+</body>
+</html>
