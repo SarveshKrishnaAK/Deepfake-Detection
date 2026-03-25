@@ -15,12 +15,13 @@
                     <ul class="nav-list">
                         <li><a class="nav-link" href="/">Home</a></li>
                         <li><a class="nav-link" href="/about.html">About</a></li>
+                        <li><a class="nav-link" href="/contact.html">Contact</a></li>
+                        <li class="nav-auth-spacer"></li>
+                        <li><a class="nav-link" href="/model.html">Model</a></li>
                         {% if session.get('Loggedin') and session.get('picture') %}
                             <li class="nav-user"><img src="{{ session.get('picture') }}" alt="Profile"><span>{{ session.get('name', 'User') }}</span></li>
                         {% endif %}
-                        <li><a class="nav-link" href="/model.html">Model</a></li>
                         <li><a class="nav-link" href="/logout">Logout</a></li>
-                        <li><a class="nav-link" href="/contact.html">Contact</a></li>
                     </ul>
                 </nav>
             </div>
