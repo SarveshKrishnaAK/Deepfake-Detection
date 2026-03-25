@@ -95,7 +95,7 @@ body::after {
 }
 
 .brand {
-    font-size: 1.02rem;
+    font-size: 1.20rem;
     font-weight: 800;
     letter-spacing: 0.08em;
     color: var(--text);
