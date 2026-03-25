@@ -7,30 +7,40 @@
     <link rel="stylesheet" href="/static/styles/main.css">
 </head>
 <body>
-    <header>
-        <div class="brand">AUDIO & VIDEO DEEPFAKE DETECTION</div>
-        <nav>
-            <ul>
-                <li><a href="/">Home</a></li>
-                <li><a href="/about.html">About</a></li>
-                {% if session.get('Loggedin') %}
-                    <li><a href="/logout">Logout</a></li>
-                {% else %}
-                    <li><a href="/login.html">Login</a></li>
-                {% endif %}
-                <li><a href="/contact.html">Contact</a></li>
-            </ul>
-        </nav>
-    </header>
+    <div class="site-shell">
+        <header class="site-header">
+            <div class="header-inner">
+                <div class="brand">AUDIO & VIDEO DEEPFAKE DETECTION</div>
+                <nav>
+                    <ul class="nav-list">
+                        <li><a class="nav-link" href="/">Home</a></li>
+                        <li><a class="nav-link" href="/about.html">About</a></li>
+                        {% if session.get('Loggedin') %}
+                            <li><a class="nav-link" href="/model.html">Model</a></li>
+                            <li><a class="nav-link" href="/logout">Logout</a></li>
+                        {% else %}
+                            <li><a class="nav-link" href="/login.html">Login</a></li>
+                        {% endif %}
+                        <li><a class="nav-link" href="/contact.html">Contact</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </header>
 
-    <main>
-        <section class="card form-card" style="text-align:center;">
-            <h2 class="form-title">Thank You</h2>
-            <p class="small" style="margin-bottom: 14px;">Your message has been received. We will get back to you shortly.</p>
-            <a class="btn" href="/index.html">Back to Home</a>
-        </section>
-    </main>
+        <main class="page">
+            <section class="hero">
+                <h1>Thank You</h1>
+                <p>Your message was submitted successfully.</p>
+            </section>
 
-    <footer>&copy; 2026 Project.</footer>
+            <section class="panel form-shell" style="text-align: center;">
+                <h2>We Received Your Message</h2>
+                <p class="note" style="margin-bottom: 14px;">Our team will review your request and respond as soon as possible.</p>
+                <a class="btn" href="/">Back to Home</a>
+            </section>
+        </main>
+
+        <footer class="site-footer">&copy; 2026 Project.</footer>
+    </div>
 </body>
 </html>

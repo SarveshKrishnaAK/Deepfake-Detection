@@ -7,91 +7,108 @@
     <link rel="stylesheet" href="/static/styles/main.css">
 </head>
 <body>
-    <header>
-        <div class="brand">AUDIO & VIDEO DEEPFAKE DETECTION</div>
-        <nav>
-            <ul>
-                <li><a href="/">Home</a></li>
-                <li><a href="/about.html">About</a></li>
-                <li><a href="/logout">Logout</a></li>
-                <li><a href="/contact.html">Contact</a></li>
-            </ul>
-        </nav>
-    </header>
-
-    <main>
-        <section class="card form-card">
-            <h2 class="form-title">Upload Audio or Video</h2>
-            {% if msg %}
-                <div class="msg error">{{ msg }}</div>
-            {% endif %}
-
-            <form id="upload_form" action="/model.html" method="POST" enctype="multipart/form-data">
-                <div class="field">
-                    <label for="media_file">Supported: .wav, .mp3, .mp4</label>
-                    <input type="file" name="media_file" id="media_file" required>
-                </div>
-                <div id="loader" class="small" style="display:none; margin-bottom: 10px;">Analyzing media, please wait...</div>
-                <button class="btn" type="submit" onclick="showLoader()">Run Detection</button>
-            </form>
-
-            <div class="preview-wrap audio-player" style="display:none;">
-                <audio controls id="audio_player">
-                    <source id="audio_source" src="#" type="audio/mpeg">
-                </audio>
+    <div class="site-shell">
+        <header class="site-header">
+            <div class="header-inner">
+                <div class="brand">AUDIO & VIDEO DEEPFAKE DETECTION</div>
+                <nav>
+                    <ul class="nav-list">
+                        <li><a class="nav-link" href="/">Home</a></li>
+                        <li><a class="nav-link" href="/about.html">About</a></li>
+                        <li><a class="nav-link" href="/model.html">Model</a></li>
+                        <li><a class="nav-link" href="/logout">Logout</a></li>
+                        <li><a class="nav-link" href="/contact.html">Contact</a></li>
+                    </ul>
+                </nav>
             </div>
+        </header>
 
-            <div class="preview-wrap video-player" style="display:none;">
-                <video controls id="video_player">
-                    <source id="video_source" src="#" type="video/mp4">
-                </video>
-            </div>
+        <main class="page">
+            <section class="hero">
+                <h1>Detection Workspace</h1>
+                <p>Upload media and run deepfake analysis with duplicate detection, cached response reuse, and feedback collection.</p>
+            </section>
 
-            {% if file_label %}
-            <div class="result">
-                <p><strong>{{ file_label }}</strong></p>
-                {% if prediction_source %}
-                <p class="small">Served via: {{ prediction_source }}</p>
-                {% endif %}
-
-                {% if audio_result %}
-                <p>Audio Result:
-                    {% if audio_result == "fake" %}
-                        <span class="bad">FAKE</span>
-                    {% else %}
-                        <span class="ok">REAL</span>
+            <section class="grid-2">
+                <section class="panel">
+                    <h2>Upload Media</h2>
+                    {% if msg %}
+                        <div class="msg">{{ msg }}</div>
                     {% endif %}
-                </p>
-                {% endif %}
 
-                {% if video_result %}
-                <p>Video Result:
-                    {% if video_result == "fake" %}
-                        <span class="bad">FAKE</span>
-                    {% else %}
-                        <span class="ok">REAL</span>
-                    {% endif %}
-                </p>
-                {% endif %}
-            </div>
-            {% endif %}
+                    <form id="upload_form" action="/model.html" method="POST" enctype="multipart/form-data">
+                        <div class="field">
+                            <label for="media_file">Supported formats: .wav, .mp3, .mp4</label>
+                            <input type="file" name="media_file" id="media_file" required>
+                        </div>
+                        <div id="loader" class="note" style="display:none; margin-bottom: 10px;">Analyzing media, please wait...</div>
+                        <button class="btn" type="submit" onclick="showLoader()">Run Detection</button>
+                    </form>
 
-            {% if feedback_visible and prediction_id %}
-            <div class="feedback">
-                <p>Was this prediction correct?</p>
-                <form action="/feedback.html" method="POST">
-                    <input type="hidden" name="prediction_id" value="{{ prediction_id }}">
-                    <div class="buttons">
-                        <button class="btn" type="submit" name="feedback" value="yes">Yes</button>
-                        <button class="btn secondary" type="submit" name="feedback" value="no">No</button>
+                    <div class="preview-wrap audio-player" style="display:none;">
+                        <audio controls id="audio_player">
+                            <source id="audio_source" src="#" type="audio/mpeg">
+                        </audio>
                     </div>
-                </form>
-            </div>
-            {% endif %}
-        </section>
-    </main>
 
-    <footer>&copy; 2026 Project.</footer>
+                    <div class="preview-wrap video-player" style="display:none;">
+                        <video controls id="video_player">
+                            <source id="video_source" src="#" type="video/mp4">
+                        </video>
+                    </div>
+                </section>
+
+                <section class="panel">
+                    <h2>Prediction Output</h2>
+                    {% if file_label %}
+                    <div class="result">
+                        <p><strong>{{ file_label }}</strong></p>
+                        {% if prediction_source %}
+                        <p class="note">Served via: {{ prediction_source }}</p>
+                        {% endif %}
+
+                        {% if audio_result %}
+                        <p>Audio Result:
+                            {% if audio_result == "fake" %}
+                                <span class="bad">FAKE</span>
+                            {% else %}
+                                <span class="ok">REAL</span>
+                            {% endif %}
+                        </p>
+                        {% endif %}
+
+                        {% if video_result %}
+                        <p>Video Result:
+                            {% if video_result == "fake" %}
+                                <span class="bad">FAKE</span>
+                            {% else %}
+                                <span class="ok">REAL</span>
+                            {% endif %}
+                        </p>
+                        {% endif %}
+                    </div>
+                    {% else %}
+                        <p class="note">Run an upload to view prediction results and confidence flow.</p>
+                    {% endif %}
+
+                    {% if feedback_visible and prediction_id %}
+                    <div class="feedback">
+                        <p>Was this prediction correct?</p>
+                        <form action="/feedback.html" method="POST">
+                            <input type="hidden" name="prediction_id" value="{{ prediction_id }}">
+                            <div class="buttons">
+                                <button class="btn" type="submit" name="feedback" value="yes">Yes</button>
+                                <button class="btn secondary" type="submit" name="feedback" value="no">No</button>
+                            </div>
+                        </form>
+                    </div>
+                    {% endif %}
+                </section>
+            </section>
+        </main>
+
+        <footer class="site-footer">&copy; 2026 Project.</footer>
+    </div>
 
     <script>
         const mediaFileInput = document.getElementById('media_file');
@@ -108,9 +125,7 @@
 
         mediaFileInput.addEventListener('change', function (event) {
             const file = event.target.files[0];
-            if (!file) {
-                return;
-            }
+            if (!file) return;
 
             const fileURL = URL.createObjectURL(file);
             audioPlayerDiv.style.display = 'none';

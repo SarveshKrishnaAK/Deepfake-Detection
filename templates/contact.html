@@ -7,43 +7,54 @@
     <link rel="stylesheet" href="/static/styles/main.css">
 </head>
 <body>
-    <header>
-        <div class="brand">AUDIO & VIDEO DEEPFAKE DETECTION</div>
-        <nav>
-            <ul>
-                <li><a href="/">Home</a></li>
-                <li><a href="/about.html">About</a></li>
-                {% if session.get('Loggedin') %}
-                    <li><a href="/logout">Logout</a></li>
-                {% else %}
-                    <li><a href="/login.html">Login</a></li>
-                {% endif %}
-                <li><a href="/contact.html">Contact</a></li>
-            </ul>
-        </nav>
-    </header>
+    <div class="site-shell">
+        <header class="site-header">
+            <div class="header-inner">
+                <div class="brand">AUDIO & VIDEO DEEPFAKE DETECTION</div>
+                <nav>
+                    <ul class="nav-list">
+                        <li><a class="nav-link" href="/">Home</a></li>
+                        <li><a class="nav-link" href="/about.html">About</a></li>
+                        {% if session.get('Loggedin') %}
+                            <li><a class="nav-link" href="/model.html">Model</a></li>
+                            <li><a class="nav-link" href="/logout">Logout</a></li>
+                        {% else %}
+                            <li><a class="nav-link" href="/login.html">Login</a></li>
+                        {% endif %}
+                        <li><a class="nav-link" href="/contact.html">Contact</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </header>
 
-    <main>
-        <section class="card form-card">
-            <h2 class="form-title">Contact Us</h2>
-            <form action="/thankyou.html" method="POST">
-                <div class="field">
-                    <label for="name">Name</label>
-                    <input type="text" id="name" name="name" required>
-                </div>
-                <div class="field">
-                    <label for="email">Email</label>
-                    <input type="email" id="email" name="email" required>
-                </div>
-                <div class="field">
-                    <label for="message">Message</label>
-                    <textarea id="message" name="message" required placeholder="Type your message here"></textarea>
-                </div>
-                <button class="btn" type="submit">Submit</button>
-            </form>
-        </section>
-    </main>
+        <main class="page">
+            <section class="hero">
+                <h1>Get in Touch</h1>
+                <p>Send us your questions, collaboration requests, or deployment feedback. We’re continuously improving this platform.</p>
+            </section>
 
-    <footer>&copy; 2026 Project.</footer>
+            <section class="panel form-shell">
+                <h2>Contact Form</h2>
+                <p class="note" style="margin-bottom:12px;">Your message will be sent when you submit and you will be redirected to the thank-you page.</p>
+                <form action="/thankyou.html" method="POST">
+                    <div class="field">
+                        <label for="name">Name</label>
+                        <input type="text" id="name" name="name" required>
+                    </div>
+                    <div class="field">
+                        <label for="email">Email</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+                    <div class="field">
+                        <label for="message">Message</label>
+                        <textarea id="message" name="message" placeholder="Type your message here" required></textarea>
+                    </div>
+                    <button class="btn" type="submit">Submit Message</button>
+                </form>
+            </section>
+        </main>
+
+        <footer class="site-footer">&copy; 2026 Project.</footer>
+    </div>
 </body>
 </html>

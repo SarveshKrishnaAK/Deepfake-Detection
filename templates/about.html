@@ -7,41 +7,56 @@
     <link rel="stylesheet" href="/static/styles/main.css">
 </head>
 <body>
-    <header>
-        <div class="brand">AUDIO & VIDEO DEEPFAKE DETECTION</div>
-        <nav>
-            <ul>
-                <li><a href="/">Home</a></li>
-                <li><a href="/about.html">About</a></li>
-                {% if session.get('Loggedin') %}
-                    <li><a href="/logout">Logout</a></li>
-                {% else %}
-                    <li><a href="/login.html">Login</a></li>
-                {% endif %}
-                <li><a href="/contact.html">Contact</a></li>
-            </ul>
-        </nav>
-    </header>
+    <div class="site-shell">
+        <header class="site-header">
+            <div class="header-inner">
+                <div class="brand">AUDIO & VIDEO DEEPFAKE DETECTION</div>
+                <nav>
+                    <ul class="nav-list">
+                        <li><a class="nav-link" href="/">Home</a></li>
+                        <li><a class="nav-link" href="/about.html">About</a></li>
+                        {% if session.get('Loggedin') %}
+                            <li><a class="nav-link" href="/model.html">Model</a></li>
+                            <li><a class="nav-link" href="/logout">Logout</a></li>
+                        {% else %}
+                            <li><a class="nav-link" href="/login.html">Login</a></li>
+                        {% endif %}
+                        <li><a class="nav-link" href="/contact.html">Contact</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </header>
 
-    <main>
-        <section class="card" style="line-height: 1.7;">
-            <h2 style="margin-bottom: 12px;">About the Project</h2>
-            <p>
-                This platform is built to detect manipulated voice and face content using audio and video models.
-                It is designed for practical deployment: upload handling, prediction persistence, user feedback loops,
-                and clean reporting in one place.
-            </p>
-            <p style="margin-top: 10px;">
-                The system analyzes uploaded media, extracts meaningful features, and returns deepfake probability through
-                model voting and acoustic analysis. Feedback can be sent directly after prediction to improve future training data.
-            </p>
-            <p style="margin-top: 10px;">
-                With support for cached responses and duplicate detection, the app delivers faster repeated results while
-                keeping an auditable history in the database layer.
-            </p>
-        </section>
-    </main>
+        <main class="page">
+            <section class="hero">
+                <h1>About This Detection System</h1>
+                <p>
+                    This platform is built for real-world deepfake operations: media upload, model scoring,
+                    duplicate result reuse, persistence, and post-prediction feedback in one integrated workflow.
+                </p>
+            </section>
 
-    <footer>&copy; 2026 Project.</footer>
+            <section class="grid-2">
+                <article class="panel">
+                    <h3>Prediction Pipeline</h3>
+                    <ul>
+                        <li>Audio feature extraction and model inference for .wav and .mp3 media.</li>
+                        <li>Video frame analysis and model voting for .mp4 deepfake screening.</li>
+                        <li>Fast duplicate detection using content hashing and cached response retrieval.</li>
+                    </ul>
+                </article>
+                <article class="panel">
+                    <h3>Deployment Focus</h3>
+                    <ul>
+                        <li>Google OAuth login for controlled access.</li>
+                        <li>Mongo-backed prediction persistence with local fallback support.</li>
+                        <li>Feedback loop for continuous data improvement and model iteration.</li>
+                    </ul>
+                </article>
+            </section>
+        </main>
+
+        <footer class="site-footer">&copy; 2026 Project.</footer>
+    </div>
 </body>
 </html>

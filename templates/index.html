@@ -3,40 +3,61 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Audio and Video Deepfake Detection</title>
+    <title>Deepfake Detection Platform</title>
     <link rel="stylesheet" href="/static/styles/main.css">
 </head>
 <body>
-    <header>
-        <div class="brand">AUDIO & VIDEO DEEPFAKE DETECTION</div>
-        <nav>
-            <ul>
-                <li><a href="/">Home</a></li>
-                <li><a href="/about.html">About</a></li>
-                {% if session.get('Loggedin') %}
-                    <li><a href="/logout">Logout</a></li>
-                {% else %}
-                    <li><a href="/login.html">Login</a></li>
-                {% endif %}
-                <li><a href="/contact.html">Contact</a></li>
-            </ul>
-        </nav>
-    </header>
-
-    <main>
-        <section class="card hero">
-            <h1>Detect Synthetic Audio and Video with Confidence</h1>
-            <p>
-                Upload media and get fast deepfake analysis powered by deep learning. The platform now supports feedback-driven
-                dataset updates, duplicate upload result reuse, and a modern interface designed for real deployment demos.
-            </p>
-            <div class="cta-row">
-                <a class="btn" href="/login.html">Start Detection</a>
-                <a class="btn secondary" href="/about.html">Learn More</a>
+    <div class="site-shell">
+        <header class="site-header">
+            <div class="header-inner">
+                <div class="brand">AUDIO & VIDEO DEEPFAKE DETECTION</div>
+                <nav>
+                    <ul class="nav-list">
+                        <li><a class="nav-link" href="/">Home</a></li>
+                        <li><a class="nav-link" href="/about.html">About</a></li>
+                        {% if session.get('Loggedin') %}
+                            <li><a class="nav-link" href="/model.html">Model</a></li>
+                            <li><a class="nav-link" href="/logout">Logout</a></li>
+                        {% else %}
+                            <li><a class="nav-link" href="/login.html">Login</a></li>
+                        {% endif %}
+                        <li><a class="nav-link" href="/contact.html">Contact</a></li>
+                    </ul>
+                </nav>
             </div>
-        </section>
-    </main>
+        </header>
 
-    <footer>&copy; 2026 Project.</footer>
+        <main class="page">
+            <section class="hero">
+                <h1>Enterprise-Grade Deepfake Detection for Audio and Video</h1>
+                <p>
+                    Detect synthetic media using a modern, full-page analysis workflow designed for production usage.
+                    Upload files, retrieve duplicate results instantly through caching, and continuously improve model quality
+                    with built-in human feedback loops.
+                </p>
+                <div class="cta-row">
+                    {% if session.get('Loggedin') %}
+                        <a class="btn" href="/model.html">Open Detection Workspace</a>
+                    {% else %}
+                        <a class="btn" href="/login.html">Sign In with Google</a>
+                    {% endif %}
+                    <a class="btn secondary" href="/about.html">Explore Platform</a>
+                </div>
+            </section>
+
+            <section class="grid-2">
+                <article class="panel">
+                    <h2>Audio + Video Intelligence</h2>
+                    <p>Unified prediction stack combining acoustic feature analysis and frame-level video inference for practical deepfake screening.</p>
+                </article>
+                <article class="panel">
+                    <h2>Feedback-Driven Learning</h2>
+                    <p>Analyst validation is captured and used to enrich your training pipeline for stronger future detection performance.</p>
+                </article>
+            </section>
+        </main>
+
+        <footer class="site-footer">&copy; 2026 Project.</footer>
+    </div>
 </body>
 </html>

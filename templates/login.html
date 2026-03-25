@@ -7,43 +7,38 @@
     <link rel="stylesheet" href="/static/styles/main.css">
 </head>
 <body>
-    <header>
-        <div class="brand">AUDIO & VIDEO DEEPFAKE DETECTION</div>
-        <nav>
-            <ul>
-                <li><a href="/">Home</a></li>
-                <li><a href="/about.html">About</a></li>
-                {% if session.get('Loggedin') %}
-                    <li><a href="/logout">Logout</a></li>
-                {% else %}
-                    <li><a href="/login.html">Login</a></li>
+    <div class="site-shell">
+        <header class="site-header">
+            <div class="header-inner">
+                <div class="brand">AUDIO & VIDEO DEEPFAKE DETECTION</div>
+                <nav>
+                    <ul class="nav-list">
+                        <li><a class="nav-link" href="/">Home</a></li>
+                        <li><a class="nav-link" href="/about.html">About</a></li>
+                        <li><a class="nav-link" href="/login.html">Login</a></li>
+                        <li><a class="nav-link" href="/contact.html">Contact</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </header>
+
+        <main class="page">
+            <section class="hero">
+                <h1>Secure Access via Google OAuth</h1>
+                <p>Sign in to access the full deepfake analysis workspace, result history, and feedback tooling.</p>
+            </section>
+
+            <section class="panel form-shell">
+                <h2>Sign In</h2>
+                {% if msg %}
+                    <div class="msg">{{ msg }}</div>
                 {% endif %}
-                <li><a href="/contact.html">Contact</a></li>
-            </ul>
-        </nav>
-    </header>
+                <p class="note" style="margin-bottom: 14px;">Only Google-based authentication is enabled for this platform.</p>
+                <a class="btn" href="/auth/google">Continue with Google</a>
+            </section>
+        </main>
 
-    <main>
-        <section class="card form-card">
-            <h2 class="form-title">Sign In with Google</h2>
-            {% if msg %}
-                <div class="msg error">{{ msg }}</div>
-            {% endif %}
-
-            <p class="small" style="text-align: center; margin-bottom: 20px;">
-                Use your Google account to access deepfake detection.
-            </p>
-
-            <a class="btn" href="/auth/google" style="display: block; text-align: center;">
-                Sign In with Google
-            </a>
-
-            <p class="small" style="margin-top: 16px; text-align: center;">
-                First time here? Google Sign-In creates your account automatically.
-            </p>
-        </section>
-    </main>
-
-    <footer>&copy; 2026 Project.</footer>
+        <footer class="site-footer">&copy; 2026 Project.</footer>
+    </div>
 </body>
 </html>
