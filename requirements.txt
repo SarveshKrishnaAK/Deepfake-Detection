@@ -1,9 +1,14 @@
 Flask==3.0.2
-numpy==1.24.3
+gunicorn==22.0.0
+numpy==1.26.4
 librosa==0.10.1
 pandas==1.5.3
 resampy==0.4.2
 pymongo==4.8.0
 python-dotenv==1.0.0
-flask-authlib==1.0.1
 authlib==1.3.0
+opencv-python-headless==4.10.0.84
+pydub==0.25.1
+tensorflow==2.15.1
+setuptools>=70
+wheel
